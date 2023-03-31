@@ -1,10 +1,12 @@
 const { response, request } = require('express')
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
+const cors = require('cors')
 const yup = require('yup')
 
 const app = express()
 app.use(express.json()) //usar na aplicação o formato JSON
+app.use(cors())
 
 //Nodemon -> (lib) ferramenta/dependencia de desenvolvimento para monitorar o código e atualizando as mundanças. Usar --save-dev para a dependencia não ir para produção. 
 //Para rodar -> npx nodemon nome do arquivo
