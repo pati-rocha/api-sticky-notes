@@ -1,6 +1,8 @@
 const { response, request } = require('express')
 const express = require('express')
 const { v4: uuidv4 } = require('uuid')
+const yup = require('yup')
+
 const app = express()
 app.use(express.json()) //usar na aplicação o formato JSON
 
@@ -23,30 +25,42 @@ app.get('/tasks', (request, response) => {
     
     const tasksSearch  = tasks.filter(
         task => task.title.toUpperCase().includes(titleQuery.toUpperCase())
-        && task.description.toUpperCase().includes(descriptionQuery.toUpperCase()))
+        && 
+        task.description.toUpperCase().includes(descriptionQuery.toUpperCase())
+        )
 
         return response.json(tasksSearch)
 })
 
 //cadastrar uma tarefa
-app.post('/tasks', (request, response) => {
-    console.log(request.body);
-    //console.log(request.body.title);
-
-    //BODY
-    //sempre tratar o body, usar apenas as chaves q são necessárias para não receber um script 
+app.post('/tasks', async (request, response) => {
+   //console.log(request.body);
+    //BODY - sempre tratar o body, usar apenas as chaves q são necessárias para não receber um script 
     //malicioso
-    const task = {
-        id: uuidv4(),
-        title : request.body.title,
-        description: request.body.description,
-        limit_date: request.body.limit_date,
-        status: false,
-        created_at: new Date().toLocaleDateString('pt-BR')
+
+    try {
+        const schema = yup.object().shape({
+            title: yup.string().min(5,"Título deve conter no mínimo 5 caracteres.").max(100).required("Título é obrigatório!"),
+            description: yup.string().min(10, "Descrição deve conter no mínimo 10 caracteres.").max(250).required("Descrição é obrigatória!"),
+            limit_date: yup.string()
+        })
+        
+        await schema.validate(request.body)
+
+        const task = {
+            id: uuidv4(),
+            title : request.body.title,
+            description: request.body.description,
+            limit_date: request.body.limit_date,
+            status: false,
+            created_at: new Date().toLocaleDateString('pt-BR')
+        }
+        tasks.push(task)  
+        
+        response.status(201).json(task)
+    } catch (error) {
+        response.status(400).json({error: error.message})        
     }
-    tasks.push(task)  
-    
-    response.status(201).json(task)
 })
 
 //route params
