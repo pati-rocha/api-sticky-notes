@@ -20,6 +20,7 @@ app.get('/', (request, response) => {
    //response.redirect("https://www.npmjs.com/package/nodemon")
 })
 
+//pesquisar tarefa
 app.get('/tasks', (request, response) => {   
    // console.log(request.query.title);
    const titleQuery = request.query.title || ""
@@ -31,7 +32,7 @@ app.get('/tasks', (request, response) => {
         task.description.toUpperCase().includes(descriptionQuery.toUpperCase())
         )
 
-        return response.json(tasksSearch)
+    return response.json(tasksSearch)
 })
 
 //cadastrar uma tarefa
@@ -132,3 +133,8 @@ app.patch('/tasks/:id/active', (request, response) => {
 app.listen(3333, () => {
     console.log('Servidor online!')
 })
+
+
+
+
+
