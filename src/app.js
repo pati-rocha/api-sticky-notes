@@ -128,10 +128,7 @@ app.patch('/tasks/:id/active', (request, response) => {
 
 })
 
-
-app.listen(3333, () => {
-    console.log('Servidor online!')
-})
+export default app
 
 
 

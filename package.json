@@ -2,10 +2,10 @@
   "name": "api-sticky-notes",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "server": "nodemon main.js"
+    "server": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
