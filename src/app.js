@@ -1,8 +1,7 @@
-const { response, request } = require('express')
-const express = require('express')
-const { v4: uuidv4 } = require('uuid')
-const cors = require('cors')
-const yup = require('yup')
+import express from 'express'
+import { v4 as uuidv4} from 'uuid'
+import cors from 'cors'
+import * as yup from 'yup'
 
 const app = express()
 app.use(express.json()) //usar na aplicação o formato JSON
@@ -129,10 +128,7 @@ app.patch('/tasks/:id/active', (request, response) => {
 
 })
 
-
-app.listen(3333, () => {
-    console.log('Servidor online!')
-})
+export default app
 
 
 
